@@ -1,18 +1,55 @@
 import React, {Component} from 'react';
+import jr from "../jr";
+
 
 
 class ChatBox extends Component {
+  chatContents = null;
+
   constructor(props) {
     super(props);
     this.state = {
-      chats: []
+      chats: [],
+      message: ""
+    };
+  }
+
+  handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      this.sendChat();
     }
   }
 
   componentDidMount() {
     fetch("http://localhost:3000/chat_rooms/1/chats/")
       .then(res => res.json())
-      .then((chats) => this.setState({chats}));
+      .then((chats) => this.setState({chats}))
+      .then(() => this.scrollEnd());
+
+  }
+
+  sendChat = () => {
+    jr("http://localhost:3000/chats/", "POST", {
+        user_id: 2,
+        chat_room_id: 1,
+        message: this.state.message
+      }
+    ).then(() => {
+      this.setState({message: ""});
+      return fetch("http://localhost:3000/chat_rooms/1/chats/");
+    }).then(res => res.json())
+      .then((chats) => {
+        this.setState({chats});
+        this.scrollEnd();
+      })
+  }
+
+  scrollEnd = () => {
+    this.chatContents.scrollTo(0, this.chatContents.scrollHeight);
+  }
+
+  setMessage = (e) => {
+    this.setState({message: e.target.value});
   }
 
   render() {
@@ -62,13 +99,21 @@ class ChatBox extends Component {
               Jelly
             </div>
           </div>
-          <div id="chat-contents">
+          <div id="chat-contents" ref={ref => {
+            this.chatContents = ref
+          }}>
             {chats}
           </div>
           <div className="chat-input">
-            <textarea name="chat-input" id="chat-input" cols="30" rows="10"></textarea>
+            <textarea name="chat-input"
+                      id="chat-input"
+                      value={this.state.message}
+                      onChange={this.setMessage}
+                      onKeyPress={this.handleKeyPress}
+                      cols="30"
+                      rows="10"/>
             <div className="send-button-wrapper">
-              <div id="send-button">Send</div>
+              <div id="send-button" onClick={this.sendChat}>Send</div>
             </div>
           </div>
         </div>
