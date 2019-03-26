@@ -1,0 +1,85 @@
+.wrapper {
+  main#contents {
+    header {
+      padding-bottom: 20px;
+
+      #friends-text {
+        font-size: 2em;
+        font-weight: bold;
+      }
+
+      .header-count {
+        font-size: 2em;
+        font-weight: bolder;
+        color: lightseagreen;
+      }
+    }
+
+    .friends-group-label {
+      margin-top: 20px;
+      color: lightseagreen;
+      font-size: 1.4em;
+      font-weight: bold;
+    }
+
+    .friend-cell {
+      display: flex;
+      flex-direction: row;
+      min-height: 80px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid #eee;
+      }
+
+      .image {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+      }
+
+      .right-side {
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        padding-left: 10px;
+        box-sizing: border-box;
+
+        .name {
+          padding-top: 8px;
+          min-height: 30px;
+          font-size: 1.2em;
+        }
+
+        .speech-bubble {
+          min-height: 30px;
+          padding-top: 8px;
+          padding-left: 10px;
+          padding-right: 10px;
+          font-weight: lighter;
+          font-size: 1.2em;
+          border: 1px solid #eee;
+          border-radius: 0 10px 10px 10px;
+        }
+      }
+    }
+
+    div.box-wrapper {
+      display: flex;
+      width: 100%;
+      overflow-y: scroll;
+      flex-direction: column;
+
+      div.box {
+        box-sizing: border-box;
+        width: 100%;
+        height: 150px;
+        border: 1px solid black;
+        background: yellowgreen;
+      }
+    }
+  }
+}
+
+
