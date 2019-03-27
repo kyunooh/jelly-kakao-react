@@ -15,8 +15,9 @@ class Friends extends Component {
       .then(friends => this.setState({friends: friends}));
   }
 
-  render() {
-    const friendsCells = this.state.friends.map(f => {
+
+  friendsCellsTemplate = () => {
+    return this.state.friends.map(f => {
       return <div className="friend-cell">
         <div className="friend-image-wrapper">
           <img className="image"
@@ -33,18 +34,20 @@ class Friends extends Component {
         </div>
       </div>
     });
+  };
 
+  render() {
     return (
       <main id="contents">
         <header>
           <span id="friends-text">Friends</span>
-          <span className="header-count">88</span>
+          <span className="header-count">{this.state.friends.length}</span>
         </header>
         <div className="friends-group-label">
           My
           Profiles
         </div>
-        {friendsCells}
+        {this.friendsCellsTemplate()}
       </main>
     )
   }
