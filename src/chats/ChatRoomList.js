@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
+import NewChat from "./NewChat";
 
 
 class ChatRoomList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      chatRooms: []
+      chatRooms: [],
+      showCreateRoom: false
     };
   }
 
@@ -15,7 +17,19 @@ class ChatRoomList extends Component {
       .then(chatRooms => this.setState({chatRooms}));
   }
 
+  newRoom = () => {
+    this.setState({showCreateRoom: true})
+  };
+
+  exitNewRoom = () => {
+    this.setState({showChatBox: false});
+  };
+
   render() {
+    if(this.state.showCreateRoom) {
+      return <NewChat exitNewRoom={this.exitNewRoom}/>
+    }
+
     const chatRoomCells = this.state.chatRooms.map(c => {
       return (<div className="chat-cell" key={c.id} onClick={this.props.openChatBox}>
         <div className="chat-image-wrapper">
@@ -46,15 +60,18 @@ class ChatRoomList extends Component {
     });
 
     return (
-      <main id="contents">
+      [
         <header>
           <span id="chats-text">Chats</span>
-          <ion-icon name="add"></ion-icon>
+          <span onClick={this.newRoom}><ion-icon name="add"  /></span>
         </header>
-        {chatRoomCells}
-      </main>
+        ,
+        chatRoomCells
+      ]
     )
   }
+
+
 }
 
 export default ChatRoomList;

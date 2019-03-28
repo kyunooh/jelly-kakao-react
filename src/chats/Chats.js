@@ -13,6 +13,7 @@ class Chats extends Component {
     };
   }
 
+
   openChatBox = (roomNumber) => {
     this.setState({showChatBox: true, chatRoomNumber: roomNumber});
   };
@@ -23,13 +24,13 @@ class Chats extends Component {
 
   render() {
     return (
-      <div className="chat-wrapper">
+      <main id="contents">
         {this.state.showChatBox ?
           <ChatBox closeChatBox={this.closeChatBox} chatRoomNumber={this.chatRoomNumber}/>
           : null
         }
         <ChatRoomList openChatBox={this.openChatBox}/>
-      </div>
+      </main>
     )
   }
 }
