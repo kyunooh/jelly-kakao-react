@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import NewChat from "./NewChat";
+import jr from "../jr";
 
 
 class ChatRoomList extends Component {
@@ -12,7 +13,7 @@ class ChatRoomList extends Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:3000/chat_rooms")
+    jr(`http://localhost:3000/chat_rooms?token=${JSON.parse(localStorage.getItem("user"))["token"]}`)
       .then(res => res.json())
       .then(chatRooms => this.setState({chatRooms}));
   }
@@ -30,8 +31,8 @@ class ChatRoomList extends Component {
       return <NewChat exitNewRoom={this.exitNewRoom}/>
     }
 
-    const chatRoomCells = this.state.chatRooms.map(c => {
-      return (<div className="chat-cell" key={c.id} onClick={this.props.openChatBox}>
+    const chatRoomCells = this.state.chatRooms.map(cr => {
+      return (<div className="chat-cell" key={cr.id} onClick={() => this.props.openChatBox(cr.id)}>
         <div className="chat-image-wrapper">
           <img className="image"
                src="https://images.pexels.com/photos/126407/pexels-photo-126407.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
@@ -39,7 +40,7 @@ class ChatRoomList extends Component {
         </div>
         <div className="right-side">
           <div className="name">
-            {c.name}
+            {cr.name}
           </div>
           <div className="recent-message">
             Jelly is happy!
@@ -61,7 +62,7 @@ class ChatRoomList extends Component {
 
     return (
       [
-        <header>
+        <header key="0">
           <span id="chats-text">Chats</span>
           <span onClick={this.newRoom}><ion-icon name="add"  /></span>
         </header>

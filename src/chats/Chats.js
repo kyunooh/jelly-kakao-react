@@ -26,7 +26,7 @@ class Chats extends Component {
     return (
       <main id="contents">
         {this.state.showChatBox ?
-          <ChatBox closeChatBox={this.closeChatBox} chatRoomNumber={this.chatRoomNumber}/>
+          <ChatBox chatRoomNumber={this.state.chatRoomNumber} closeChatBox={this.closeChatBox} />
           : null
         }
         <ChatRoomList openChatBox={this.openChatBox}/>

@@ -21,7 +21,7 @@ class ChatBox extends Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:3000/chat_rooms/1/chats/")
+    fetch(`http://localhost:3000/chat_rooms/${this.props.chatRoomNumber}/chats/`)
       .then(res => res.json())
       .then((chats) => this.setState({chats}))
       .then(() => this.scrollEnd());
@@ -30,13 +30,13 @@ class ChatBox extends Component {
 
   sendChat = () => {
     jr("http://localhost:3000/chats/", "POST", {
-        user_id: 2,
-        chat_room_id: 1,
+        token: JSON.parse(localStorage.getItem("user"))["token"],
+        chat_room_id: this.props.chatRoomNumber,
         message: this.state.message
       }
     ).then(() => {
       this.setState({message: ""});
-      return fetch("http://localhost:3000/chat_rooms/1/chats/");
+      return fetch(`http://localhost:3000/chat_rooms/${this.props.chatRoomNumber}/chats/`)
     }).then(res => res.json())
       .then((chats) => {
         this.setState({chats});
@@ -53,6 +53,7 @@ class ChatBox extends Component {
   }
 
   render() {
+
     const chats = this.state.chats.map(c =>
       <div className="chat">
         <div className="profile-image">
@@ -62,7 +63,7 @@ class ChatBox extends Component {
         </div>
         <div className="right-side">
           <div className="user-name">
-            {c.user.name}
+            {c.user.nickname}
           </div>
           <div className="message">
             {c.message}

@@ -18,7 +18,7 @@ class Friends extends Component {
 
   friendsCellsTemplate = () => {
     return this.state.friends.map(f => {
-      return <div className="friend-cell">
+      return <div className="friend-cell" key={f.id}>
         <div className="friend-image-wrapper">
           <img className="image"
                src={f.image_url}
